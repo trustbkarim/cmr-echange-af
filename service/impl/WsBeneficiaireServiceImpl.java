@@ -46,7 +46,7 @@ public class WsBeneficiaireServiceImpl implements IWsBeneficiaireService {
 
         for (WsPasDemandeResponseDto wsPasRequeteIndex : wsPasDemandeResponseList) {
 
-            if (wsPasDemandeRepository.findByCin(wsPasRequeteIndex.getCin()).isPresent()) {
+            if (wsPasDemandeRepository.existsByCin(wsPasRequeteIndex.getCin()).equals(Boolean.TRUE)) {
 
                 wsPasDemande.add(wsPasRequeteIndex);
 
@@ -63,8 +63,7 @@ public class WsBeneficiaireServiceImpl implements IWsBeneficiaireService {
                 wsPasDemandeResponseDtoList.add(wsPasRequeteIndex);
             }
         }
-
-        wsPasRequeteCreateDto.setListBeneficiaire(wsPasDemandeResponseDtoList);
+        
         WsPasRequeteEntity wsPasRequete = wsPasRequeteRepository.save(modelMapper.map(wsPasRequeteCreateDto, WsPasRequeteEntity.class));
         WsPasRequeteResponseDto wsPasRequeteResponseDto = modelMapper.map(wsPasRequete, WsPasRequeteResponseDto.class);
         wsPasRequeteResponseDto.setNombreEnregistrement(this.nombreEnregistrement);
